@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:NewMess_web}/db/DataBase.db",
+            "name": "DataBaseWeb"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

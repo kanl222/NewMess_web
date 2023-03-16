@@ -1,0 +1,42 @@
+
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-weight: 300;
+}
+body {
+    background-color: grey;
+    }
+
+.wrapper{
+    position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	height: 500px;
+	width: 450px;
+
+}
+
+.container {
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 1px 1px 0 0 black;
+}
+.container h1{
+    color: black;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.container #submit_login,#submit_reg {
+    width: 80%;
+}
+
+.container a {
+    margin-bottom: 30px;
+}
