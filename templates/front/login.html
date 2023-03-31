@@ -1,12 +1,12 @@
-{% extends "front/html/base.html" %}
+{% extends "front/base.html" %}
 
 {% block content %}
-<div class="wrapper">
+<div class="wrapper-login">
 	<div class="container">
         <h1>Авторизация</h1>
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            <p>
+            <p class='email input'>
                 {{ form.email.label }}<br>
                 {{ form.email(class="form-control", type="email") }}<br>
                 {% for error in form.email.errors %}
@@ -15,21 +15,23 @@
             </div>
             {% endfor %}
             </p>
-            <p>
+            <p class='password input'>
                 {{ form.password.label }}<br>
                 {{ form.password(class="form-control", type="password") }}<br>
                 {% for error in form.password.errors %}
+                <use xlink:href="#icon-user"></use>
             <div class="alert alert-danger" role="alert">
                 {{ error }}
             </div>
             {% endfor %}
             </p>
-            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-            <p>{{ form.submit_login(type="submit_login", class="btn btn-primary") }}</p>
-            <div>{{ message }}</div>
+            <p class='remember_me'>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         </form>
         <a class="btn btn-primary" id='submit_reg' href='/register'>Зарегистрироваться</a>
+        <div class='error'>{{ message }}</div>
     </div>
+
 </div>
 
 {% endblock %}

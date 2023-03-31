@@ -1,5 +1,6 @@
 import datetime
-import sqlalchemy
+from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime,LargeBinary
 from ..db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
@@ -7,22 +8,32 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(SqlAlchemyBase, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
-    serialize_only = ('id', 'login', 'email', 'role_id')
-    id = sqlalchemy.Column(sqlalchemy.Integer,primary_key=True, autoincrement=True)
-    username = sqlalchemy.Column(sqlalchemy.String,nullable=True,unique=True)
-    email = sqlalchemy.Column(sqlalchemy.String,nullable=True,unique=True)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String,nullable=True)
-    creation_time = sqlalchemy.Column(sqlalchemy.DATETIME,nullable=True,default=datetime.datetime.now())
-    icon = sqlalchemy.Column(sqlalchemy.LargeBinary,nullable=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String, nullable=True, unique=True, index=True)
+    email = Column(String, nullable=True, unique=True, index=True)
+    hashed_password = Column(String, nullable=True)
+    _creation_time = Column(DateTime, nullable=True, default=datetime.datetime.now())
+    icon = Column(LargeBinary, nullable=True)
+
+    __serialize_only__ = ['id', 'username', 'email', 'creation_time', 'icon']
+
     
-
     def __repr__(self):
         return f'<User> {self.id} {self.username}'
 
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
         self.hashed_password = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         return check_password_hash(self.hashed_password, password)
+
+    @property
+    def creation_time(self):
+        return str(self._creation_time)
+
+    def to_dict(self) -> dict:
+        user_dict = {attr: getattr(self, attr) for attr in self.serialize_only}
+        user_dict['creation_time'] = f"{user_dict['creation_time']}"
+        return user_dict

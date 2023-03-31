@@ -6,37 +6,135 @@
 	font-weight: 300;
 }
 body {
-    background-color: grey;
+    background: rgba(33, 34, 38, 1);
     }
 
-.wrapper{
+.wrapper-register{
     position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	margin: auto;
-	height: 500px;
-	width: 450px;
+    height: 450px;
+    width: 600px;
+
+}
+.wrapper-login{
+    position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+    height: 450px;
+    width: 450px;
 
 }
 
 .container {
-    border: 2px solid black;
+    height: 100%;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 1px 1px 0 0 black;
+}
+.container {
+    background: rgb(54, 56, 61);
+    box-shadow: 6px 6px  rgb(64,65,69);
 }
 .container h1{
-    color: black;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    user-select: none;
+    color: white;
+    line-height: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.container #submit_login,#submit_reg {
-    width: 80%;
+.container #submit,#submit_reg {
+    width: 100%;
+    height: 45px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 2;
+
+    border-radius: 10px;
 }
 
 .container a {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+}
+.container .input {
+    display: inline-flex;
+    width: 100%;
+}
+
+.container .input label { 
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    user-select: none;
+    
+}
+
+.container #submit_reg {
+    background: rgb(1, 156, 48);
+    border-color: rgb(1, 128, 39);
+    margin-bottom: 10px;
+
+}
+.container #submit_reg:hover {
+    color:white;
+    background: rgb(1, 128, 39);
+}
+.container #submit_reg:active {
+    color:white;
+    box-shadow: 0 0 0 0.25rem rgb(1, 117, 36);
+}
+
+.remember_me {
+    color: white;
+    text-align: left;
+    height: 40px;
+    line-height: 40px;
+    -ms-user-select: none; 
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	user-select: none; 
+}
+
+
+.form-control {
+    width: 100%;
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 2;
+    border-radius: 10px;
+    color:white;
+    border-color: rgb(67, 69, 77);
+    background-color: rgb(79, 81, 90);
+    
+}
+
+label {
+    color: white;
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+    text-align: left;
+}
+
+.error {
+    color: red;
+    padding-bottom: 5px;
+    margin-top: 5px;
+}
+
+.wrapper-register .input label{
+    width: 270px;
+    text-align: left;
+}
+.wrapper-register .input label::after{
+   content: ' :';
 }

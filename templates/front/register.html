@@ -1,0 +1,52 @@
+{% extends "front/base.html" %}
+
+{% block content %}
+<div class="wrapper-register">
+	<div class="container">
+        <h1>Авторизация</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p class='username input'>
+                {{ form.username.label }}<br>
+                {{ form.username(class="form-control", type="email") }}<br>
+                {% for error in form.username.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+            <p class='email input'>
+                {{ form.email.label }}<br>
+                {{ form.email(class="form-control", type="email") }}<br>
+                {% for error in form.email.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+            <p class='password_1 input'>
+                {{ form.password_1.label }}<br>
+                {{ form.password_1(class="form-control", type="password") }}<br>
+                {% for error in form.password_1.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+            <p class='password_2 input'>
+                {{ form.password_2.label }}<br>
+                {{ form.password_2(class="form-control", type="password") }}<br>
+                {% for error in form.password_2.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+            <p>{{ form.submit(type="submit",id='submit_reg', class="btn btn-primary") }}</p>
+            <div class="error">{{ message }}</div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
