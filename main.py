@@ -5,6 +5,7 @@ from data.forms import LoginForm, RegisterForm
 from data.api import api_chat
 from data import db_session
 from uuid import uuid4
+import ssl
 import os
 
 app = Flask(__name__)
@@ -100,8 +101,10 @@ def logout():
 
 
 def main():
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    context.load_cert_chain('example.crt', 'example.key')
     app.register_blueprint(api_chat.blueprint)
-    app.run(debug=True,threaded=True)
+    app.run(host='127.0.0.1',debug=True,threaded=True,ssl_context=context)
 
 
 if __name__ == '__main__':
