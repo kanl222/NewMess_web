@@ -1,156 +1,60 @@
 {% extends "back/base.html" %}
 
 {% block content %}
-<div class='frame'>
+<div class="frame">
     <div class="search">
-        <input placeholder="Поиск...">
+        <input placeholder="Поиск..." id='search-input'>
         <i class="bi bi-search"></i>
     </div>
     <div class="box-list">
-        <ul id='list-users'>    
-            <li class="user_object" id='1'>
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
-                  </div>
+        <ul id='list-users'>
+            {% for user in users %}    
+                <li class="user_object" id='{{ user.id  }}'>
+                    <div class="user-drawer">
+                        <img class="profile-image" src="data:image/png;base64,{{user.icon}}" alt="">
+                        <div class="text">
+                        <h6>{{ user.username }}</h6></div>
+                        <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
+                    </div>
 
-            </li>
-            <li class="user_object" id='2'>
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
-                  </div>
-
-            </li>
-            
+                </li>
+            {% endfor %}
         </ul>
     </div>
 </div>
 <div class='create-chat-panel'>
-    <input placeholder="Название чата">
+    <div class="load-icon-chat">
+        <div class="icon-chat-">
+            <div class="button-load-icon-chat">
+                <a>Загрузить изображение</a>
+            </div>
+            <img class="profile-image icon-chat-create" src="data:image/png;base64,{{current_user.icon}}" alt="" style='display:none;'>
+        </div>
+    </div>
+    <input placeholder="Название чата" id='form-chat-name'>
     <h4>Участники чата</h4>
     <div class="box-list">
         <ul id='chat-participants'>    
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-
-            </li>
-            
-            <li class="user_object">
-                <div class="user-drawer">
-                    <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                    <div class="text">
-                    <h6>Robo Cop</h6></div>
-                    <div class='button-delete-user-from-chat'>
-                        <i class="bi bi-dash-lg"></i>
-                    </div>
-                  </div>
-                
-                
-            </li>
-            
-
         </ul>
     </div>
+    <div class='bottom_box'>
+        <div class='text-error'><p id='error-text' style='display:none'>asdas</p></div>
         <div class="button-create-chat">
             <a> Создать </a>
         </div>
     </div>
+    </div>
 </div>
+<script id="template-user" type="text/jquery-tmpl" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+    <li class="user_object" id='${id}'>
+        <div class="user-drawer">
+            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+            <div class="text">
+            <h6>${username}</h6></div>
+            <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
+        </div>
+
+    </li>
+</script>
 <script src="static/back/js/users.js"></script>
 {% endblock %}

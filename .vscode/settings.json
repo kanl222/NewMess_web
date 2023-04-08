@@ -1,0 +1,5 @@
+{
+    "CodeGPT.model": "gpt-4",
+    "CodeGPT.query.language": "Russian",
+    "CodeGPT.temperature": 0.8
+}

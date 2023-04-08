@@ -12,12 +12,12 @@ class Chat(SqlAlchemyBase,SerializerMixin):
 
     id = Column(Integer, primary_key=True, autoincrement=True,unique=True,nullable=True)
     title = Column(String, nullable=False, unique=True)
-    icon = Column(LargeBinary, nullable=True)
-    __serialize_only__ = ('id', 'title')
+    icon = Column(String, nullable=True)
+    __serialize_only__ = ('id', 'title','icon')
 
 
     def to_dict(self):
-        return {attr: getattr(self, attr) for attr in self.serialize_only}
+        return {attr: getattr(self, attr) for attr in self.__serialize_only__}
 
     def __repr__(self):
         return f"Chat(id={self.id}, title='{self.title}')"

@@ -31,7 +31,6 @@ def global_init(db_file):
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()
-    cursor.execute('pragma journal_mode=OFF')
     cursor.execute('PRAGMA synchronous=OFF')
     cursor.execute('PRAGMA cache_size=4096')
 

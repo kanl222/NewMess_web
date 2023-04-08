@@ -16,9 +16,3 @@ blueprint = flask.Blueprint(
 def get_update():
     return flask.jsonify({'jobs': ['id', 'team_leader', 'job', 'work_size', 'collaborators', 'start_date', 'end_date','is_finished']})
 
-
-@blueprint.route('/api/messages')
-def get_messages_in_chat():
-    if not current_user.is_authenticated:
-        abort(404)
-    return flask.jsonify({'jobs': ['id', 'team_leader', 'job', 'work_size', 'collaborators', 'start_date', 'end_date','is_finished']})

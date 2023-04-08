@@ -15,7 +15,7 @@ class User(SqlAlchemyBase, UserMixin):
     email = Column(String, nullable=True, unique=True, index=True)
     hashed_password = Column(String, nullable=True)
     _creation_time = Column(DateTime, nullable=True, default=datetime.datetime.now())
-    icon = Column(LargeBinary, nullable=True)
+    icon = Column(String(512), nullable=True)
 
     __serialize_only__ = ['id', 'username', 'email', 'creation_time', 'icon']
 
@@ -34,6 +34,6 @@ class User(SqlAlchemyBase, UserMixin):
         return str(self._creation_time)
 
     def to_dict(self) -> dict:
-        user_dict = {attr: getattr(self, attr) for attr in self.serialize_only}
+        user_dict = {attr: getattr(self, attr) for attr in self.__serialize_only__}
         user_dict['creation_time'] = f"{user_dict['creation_time']}"
         return user_dict
