@@ -127,7 +127,7 @@ function _error(error) {
 
 $(document).on('change', '#search-input', function(event) {
   const inputValue = event.target.value;
-  console.log('Вы ввели следующее значение в поле поиска:', inputValue);
+  console.log(inputValue)
   const data = {
     search_value: inputValue
   };
@@ -135,25 +135,27 @@ $(document).on('change', '#search-input', function(event) {
 
   $.ajax({
     method: 'GET',
-    url: '/api/users',
+    url: '/api/search-users',
     data: data,
     dataType: 'json',
     cache: false,
     success: function(response) {
       $("#list-users").empty();
-      var users = response.users;
+      var users = response.data.users;
       if (users && users.length) {
 
         for (var i = 0; i < users.length; i++) {
           var users = users[i];
+          if (!(users.id in list_user_in_chat)){
           var dataItems = {
             id: users.id,
             username: users.username,
             icon: users.icon
           };
           $('#template-user').tmpl(dataItems).appendTo('#list-users');
-        }
-      }
+        };
+      };
+      };
     },
     error: function(xhr, status, error) {
       console.log(error);

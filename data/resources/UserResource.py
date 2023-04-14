@@ -15,39 +15,58 @@ class UserResource(Resource):
     method_decorators = [login_required]
     
     def get(self, user_id=None):
-        if not user_id:
-            abort(404, f"Id not found")
-        session = db_session.create_session()
-        user = get_or_abort_404(session, User, user_id)
-        session.close()
-        return user.to_dict(), 201
+        with db_session.create_session() as session:
+            user = get_or_abort_404(session, User, user_id if user_id else current_user.id )
+            user_dict = user.to_dict()
+            return jsonify({"statusCode": 201,
+                            "message": "The request was successful",
+                            'data': {
+                                "user": user_dict
+                                    
+                            }})
 
     def post(self):
-        session = db_session.create_session()
-        user = User(username=request.json['username'], email=request.json['email'])
-        session.add(user)
-        session.commit()
-        session.close()
-        return user.to_dict(), 201
+        with db_session.create_session() as session:
+            data = request.json
+            if 'username' in data and session.query(User).filter(User.username == data['username']).first():
+                abort(400, "Username already exists")
+            if 'email' in data and session.query(User).filter(User.email == data['email']).first():
+                abort(400, "Email already exists")
+            user = User(username=data['username'], email=data['email'])
+            session.add(user)
+            session.commit()
+            return jsonify({"statusCode": 201,
+                            "message": "The request was successful"
+                            })
 
-    def put(self, user_id):
-        session = db_session.create_session()
-        user = get_or_abort_404(session, User, user_id)
-        if user != current_user:
-            abort(403, "You don't have permission to modify this user")
-        user.username = request.json.get('username', user.username)
-        user.email = request.json.get('email', user.email)
-        session.commit()
-        session.close()
-        return user.to_dict(), 201
+    def put(self,user_id=0):
+        if not user_id:
+            user_id = current_user.id
+        with db_session.create_session() as session:
+            data = request.json
+            if 'username' in data and session.query(User).filter(User.username == data['username']).filter(User.id != user_id).first():
+                abort(400, "Username already exists")
+            if 'email' in data and session.query(User).filter(User.email == data['email']).filter(User.id != user_id).first():
+                abort(400, "Email already exists")
+            user = get_or_abort_404(session, User, current_user.id)
+            if user != current_user:
+                abort(403, "You don't have permission to modify this user")
+            print(data)
+            user.username = data.get('username', user.username)
+            user.email = data.get('email', user.email)
+            user.icon = data.get('icon', user.icon)
+            session.commit()
+            return jsonify({"statusCode": 200,
+                            "message": "The request was successful"
+                            })
+
 
     def delete(self, user_id):
-        session = db_session.create_session()
-        user = get_or_abort_404(session, User, user_id)
-        if user != current_user:
-            abort(403, "You don't have permission to delete this user")
-        session.delete(user)
-        session.commit()
-        session.close()
-        return jsonify({"statusCode": 204,
-                        "message": "The request was successful"}), 204
+        with db_session.create_session() as session:
+            user = get_or_abort_404(session, User, user_id)
+            if user != current_user:
+                abort(403, "You don't have permission to delete this user")
+            session.delete(user)
+            session.commit()
+            return jsonify({"statusCode": 204,
+                            "message": "The request was successful"}), 204

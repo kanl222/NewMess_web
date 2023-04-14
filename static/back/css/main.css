@@ -12,10 +12,12 @@
 
 
 body {
-    background-color: rgb(48, 49, 54);
-    width: 100%;
-    height: 100%;
-    }
+  background-color: #14151F;
+  width: 100%;
+  height: 100%;
+}
+
+
 
 .navigation {
     display: block;
@@ -217,15 +219,16 @@ input[type="text"] {
 }
 
 .box-list ul li .text{
-    width: 100%;
+    width: 225px;
     display: inline;
 }
  
 .friend-drawer, .user-drawer {
+  height: 85px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   padding: 12px 10px;
   margin-right: 10px;
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   background-color: #313131;
@@ -245,9 +248,20 @@ input[type="text"] {
 
 .friend-drawer h6 
 {
-    
+    min-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+
     margin-top: 5px;
     margin-bottom: 0;
+}
+
+.up_handler {
+  min-width:  120px;
+  display: inline-flex;
+}
+.up_handler .time-mes {
+  text-align: right;
 }
 
 .friend-drawer .time {
@@ -406,7 +420,8 @@ hr {
     height: 100%;
 }
 *::-webkit-scrollbar {
-    width: 10px;               /* ширина scrollbar */
+    width: 10px;
+    padding-right: 4px;               /* ширина scrollbar */
   }
   *::-webkit-scrollbar-track
    {
@@ -421,24 +436,27 @@ hr {
     border-radius: 20px;       /* закругления плашки */ /* padding вокруг плашки */
   }
 
-.count-new-message
-{
-    padding-left: 8px;
-    padding-right: 8px;
-    margin-top: auto;
-    margin-bottom: auto;
+  .count-new-message {
+    width: 30px;
+    height: 30px;
+    margin: auto;
     background-color: red;
-    border-radius: 20px;
+    border-radius: 50%;
     text-align: center;
+    color: white;
+    font-size: 16px;
+    line-height: 30px;
+  }
+  
 
-}
-
+  
+  
 .message-body
 {
  display: inline-flex;
  
 }
-.chat-box li:hover
+.chat-box li .text:hover
 {
 background-color: rgb(102, 102, 102);
  
@@ -457,7 +475,7 @@ background-color: rgb(102, 102, 102);
 .message-body .text
 {
  color: white;
- border-radius: 20px;
+ border-radius: 10px;
  padding: 10px;
 
 }
@@ -517,9 +535,9 @@ background-color: rgb(102, 102, 102);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 58px;
+  width: 40px;
   height: 40px;
-  margin-left: 10px;
+  margin-left: 30px;
   border: none;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   color: #fff;
@@ -586,12 +604,16 @@ background-color: rgb(102, 102, 102);
 }
 
 .button-delete-user-from-chat {
-    width: 40px;
-  margin: auto 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 30px;
   border: none;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   color: #fff;
-  border-radius: 20px;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
@@ -604,15 +626,6 @@ background-color: rgb(102, 102, 102);
   transform: translateY(-2px);
 }
 
-
-.button-delete-user-from-chat i
-{
-  height: 20px;
-  width: 40px;
-  padding: 6px;
-  text-align: center;
-  font-size: 1.5rem;
-}
 
 .create-chat-panel .box-list
 {
@@ -726,8 +739,86 @@ background-color: rgb(102, 102, 102);
   transform: translateY(-2px);
 }
 
-.text-chat-info h6, .text-count-participants
+.text-chat-info h6, .text-count-participants , .text-muted
 {
   overflow: hidden;
   white-space: nowrap;
+}
+
+.settings-menu {
+  display: block;
+  width: 600px;
+  height: 100%;
+  padding: 10px;
+  background-color: #212226;
+}
+
+.settings-menu .submit {
+  position: fixed;
+  bottom: 10px;
+  margin-left: 340px;
+  background-color: #0d6efd;
+  color: white;
+  font-size: 18px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.settings-menu .submit:hover {
+  background-color: #0047b3;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+
+
+
+
+
+.settings-menu p {
+  display: block;
+  font: 2em sans-serif;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  color: #ffffff;
+  border-bottom: 1px solid   white;
+}
+
+.element-settings {
+  display: inline-flex;
+  height: 70px;
+  width: 590px;
+  line-height: 70px;
+  border-radius: 5px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.element-settings label{
+  height: 70px;
+  width: 210px;
+
+}
+
+.element-settings input{
+  display: block;
+  height: 50px;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 0 20px;
+  outline: none;
+  border: none;
+  border-bottom:solid 1px white;
+  color: rgb(255, 255, 255);
+  background-color: inherit;
+}
+
+.element-settings .error{
+  height: 10px;
+  line-height: 10px;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }

@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from ..db_session import SqlAlchemyBase
 
 
-class chats_read(SqlAlchemyBase,SerializerMixin):
+class ChatsRead(SqlAlchemyBase,SerializerMixin):
     __tablename__ = 'chats_read'
     id = Column(Integer, primary_key=True,autoincrement=True,unique=True)
     id_user = Column(Integer, ForeignKey('user.id'),nullable=True)

@@ -5,16 +5,16 @@ import random
 from base64 import b64encode
 from io import BytesIO
 
-font_path = os.path.abspath("arial.ttf")
+font_path = os.path.abspath("data/font/arialmt.ttf")
 font = ImageFont.truetype(font_path, 16)
 
 bg_color_array = np.zeros((48, 48, 3), dtype=np.uint8)
 
-def generate_avatar(username, font_color=(255, 255, 255), return_PNG_bytes=False):
+def generate_avatar(username, font_color=(240, 240, 240), return_PNG_bytes=False):
     size = 48
     text = username[0].upper()
     
-    background_color = tuple(random.randint(0, 255) for _ in range(3))
+    background_color = tuple(random.randint(0, 240) for _ in range(3))
     
     bg_color_array[:, :, :] = background_color
     image = Image.fromarray(bg_color_array)

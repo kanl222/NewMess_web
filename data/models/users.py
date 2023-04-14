@@ -1,4 +1,4 @@
-import datetime
+import datetime,time
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime,LargeBinary
 from ..db_session import SqlAlchemyBase
@@ -37,3 +37,6 @@ class User(SqlAlchemyBase, UserMixin):
         user_dict = {attr: getattr(self, attr) for attr in self.__serialize_only__}
         user_dict['creation_time'] = f"{user_dict['creation_time']}"
         return user_dict
+    
+    def date_to_millis(self):
+        return int(time.mktime(self._creation_time.timetuple())) * 1000

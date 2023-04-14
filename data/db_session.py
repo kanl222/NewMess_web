@@ -7,27 +7,32 @@ from sqlalchemy import event
 from sqlalchemy.pool import QueuePool
 import logging
 
-SqlAlchemyBase = dec.declarative_base()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
+SqlAlchemyBase = dec.declarative_base()
 __factory = None
 
-def global_init(db_file):
-    global __factory
 
+def global_init(db_file: str):
+    global __factory
     if __factory:
         return
 
     if not db_file or not db_file.strip():
-        raise Exception("Необходимо указать файл базы данных.")
+        raise Exception("Необходимо указать адрес БД.")
 
+    logger.info(f"Устанавливаем подключение к базе данных {db_file}")
     conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
-    print(f"Подключение к базе данных по адресу {conn_str}")
 
-    engine = sa.create_engine(conn_str, echo=False,poolclass=QueuePool, pool_size=20, max_overflow=10,pool_timeout=30)
+    engine = sa.create_engine(conn_str,
+                              echo=False,
+                              poolclass=QueuePool,
+                              pool_size=60,
+                              max_overflow=20,
+                              pool_timeout=30)
     __factory = orm.sessionmaker(bind=engine)
-    from . import __all_models
-    SqlAlchemyBase.metadata.create_all(engine)
-    
+
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()
@@ -35,6 +40,13 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute('PRAGMA cache_size=4096')
 
 
+
 def create_session() -> Session:
     global __factory
-    return __factory()
+    session = __factory()
+    session.expire_on_commit = False
+    return session
+
+
+def get_base():
+    return SqlAlchemyBase

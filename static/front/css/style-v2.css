@@ -1,48 +1,52 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-weight: 300;
-}
 
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-weight: 300;
+}
 body {
     background: rgba(33, 34, 38, 1);
-}
+    }
+body {
+        margin: 0;
+        padding: 0;
+    }
+canvas {
+        display: block;
+    }
 
 .wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-
-.register {
-    height: 450px;
-    width: 600px;
-
-}
-
-.login {
-
-    height: 450px;
-    width: 450px;
-
-}
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    
+.register{
+        height: 450px;
+        width: 600px;
+    
+    }
+.login{
+    
+        height: 450px;
+        width: 450px;
+    
+    }
 
 .container {
     height: 100%;
     border-radius: 20px;
     text-align: center;
 }
-
-.container {
+/*.container {
     background: rgb(54, 56, 61);
-    box-shadow: 6px 6px rgb(64, 65, 69);
-}
-
-.container h1 {
+    box-shadow: 6px 6px  rgb(64,65,69);
+}*/
+.container h1{
     user-select: none;
     color: white;
     line-height: 50px;
@@ -50,9 +54,8 @@ body {
     padding-bottom: 20px;
 }
 
-.container #submit,
-#submit_reg {
-    width: 100%;
+.container #submit,#submit_reg {
+    width: 235px;
     height: 45px;
     font-size: 1rem;
     font-weight: 400;
@@ -64,18 +67,17 @@ body {
 .container a {
     margin-bottom: 10px;
 }
-
 .container .input {
     display: inline-flex;
     width: 100%;
 }
 
-.container .input label {
+.container .input label { 
     width: 250px;
     height: 40px;
     line-height: 40px;
     user-select: none;
-
+    
 }
 
 .container #submit_reg {
@@ -84,14 +86,12 @@ body {
     margin-bottom: 10px;
 
 }
-
 .container #submit_reg:hover {
-    color: white;
+    color:white;
     background: rgb(1, 128, 39);
 }
-
 .container #submit_reg:active {
-    color: white;
+    color:white;
     box-shadow: 0 0 0 0.25rem rgb(1, 117, 36);
 }
 
@@ -100,10 +100,10 @@ body {
     text-align: left;
     height: 40px;
     line-height: 40px;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+    -ms-user-select: none; 
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	user-select: none; 
 }
 
 
@@ -114,10 +114,10 @@ body {
     font-weight: 400;
     line-height: 2;
     border-radius: 10px;
-    color: white;
+    color:white;
     border-color: rgb(67, 69, 77);
     background-color: rgb(79, 81, 90);
-
+    
 }
 
 label {
@@ -136,11 +136,10 @@ label {
     margin-top: 5px;
 }
 
-.wrapper-register .input label {
+.wrapper-register .input label{
     width: 270px;
     text-align: left;
 }
-
-.wrapper-register .input label::after {
-    content: ' :';
+ .input label::after{
+   content: ':';
 }

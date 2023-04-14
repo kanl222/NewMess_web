@@ -10,13 +10,12 @@ class UserListResource(Resource):
     method_decorators = [login_required]
     
     def get(self):
-        search_value = request.args.get('search_value', '')
-        session = db_session.create_session()
-        users = session.query(User).filter(and_(User.username.like('%{}%'.format(search_value)),User.id != current_user.get_id())).all()
-        users_dict = [user.to_dict() for user in users]
-        return jsonify({"statusCode": 200,
-                        "message": "The request was successful",
-                        'data': {
-                            "users" :users_dict
-                                 
-                        }})
+        with db_session.create_session() as session:
+            users = session.query(User).filter(User.id != current_user.get_id()).all()
+            users_dict = [user.to_dict() for user in users]
+            return jsonify({"statusCode": 200,
+                            "message": "The request was successful",
+                            'data': {
+                                "users" :users_dict
+                                    
+                            }})

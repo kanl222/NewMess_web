@@ -4,20 +4,25 @@
 <title>Мессенджер</title>
 <div class='frame'>
     <div class="search">
-        <input placeholder="Поиск...">
-        <i class="bi bi-search"></i>
+        <input placeholder="Поиск..." id='search-input' type='search'>
+        <i class="bi bi-search" ></i>
     </div>
     <div class="box-list">
         <ul id="list-chats">
             {% for chat in chats %}    
-            <li class="chat_object" id="{{ chat.id  }}">
+            <li class="chat_object" id="chat_{{ chat.id  }}">
                 <div class="friend-drawer">
                     <img class="profile-image" src="data:image/png;base64,{{chat.icon}}" alt="">
-                    <div class="text">
+                    <div class="text" id="last_message_in_chat_id_{{chat.last_message_id}}">
                     <h6>{{ chat.title }}</h6>
-                    <p class="text-muted">Hey, you're arrested!</p>
+                    <p class="text-muted">{{ chat.last_message }}</p>
                     </div>
-                    <span class="time text-muted small">13:21</span>
+                    {% if chat.count_new_message %}
+                    <div class="count-new-message">{{ chat.count_new_message }}</div>
+                    {% else %}
+                    <div class="count-new-message" style="background:inherit"></div>
+                    {% endif %}
+                    <div class="time text-muted small">{{ chat.send_time }}</div>
                   </div>
             </li>
             {% endfor %}    
@@ -35,52 +40,6 @@
     </div>
     <div class='chat-box'>
         <ul id='chat-messages'>
-        <li class='message-received' id="">
-            <div class="message-body">
-                <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                <div class="text">
-                    <h6>Robo Cop <span class="time-mes text-mes small">13:21</span></h6>
-
-                    <p class="text-mes">Hey, you'ressssssssssssssssssssssssssssssssssssss ssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss arrested!</p>
-                </div>
-            </div>
-            </li>
-        <li class='message-sent'>
-            <div class="message-body">
-                <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                <div class="text">
-                    <h6>Robo Cop <span class="time-mes text-mes small">13:21</span></h6>
-
-                    <p class="text-mes">Hey, you'ressssssssssssssssssssssssssssssssssssss ssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss arrested!</p>
-                </div>            </div></li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
-        <li>sdfsd</li>
         </ul>
 
     </div>
@@ -97,17 +56,17 @@
 
 <script src="static/back/js/chat.js"></script>
 <script id="template-chat" type="text/jquery-tmpl">
-    <li class="chat" id="chat_${id}">
+    <li class="chat_object" id="chat_${id}">
         <div class="friend-drawer">
-            <img class="profile-image" src="${img}" alt="">
-            <div class="text">
-            <h6>${username}</h6>
-            <li class="text-muted">${last_message}</p>
+            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+            <div class="text" id="last_message_in_chat_id_${id_message}">
+            <h6>${title}</h6>
+            <p class="text-muted"></p>
             </div>
-            <span class="count-new-message">0</span>
-            <span class="time text-muted small">${time_last_message}</span>
-          </div>
-    </li>
+            <div class="count-new-message" style="background:inherit"></div>
+
+            <div class="time text-muted small"></div>
+        </div>
     
 </script>
 <script id="template-message-sent" type="text/jquery-tmpl" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
@@ -118,15 +77,17 @@
 
                 <p class="text-mes">${message}</p>
             </div>
-            <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
+            <img class="profile-image" src="data:image/png;base64,{{icon}}" alt="">
         </div></li>
 </script>
 <script id="template-message-received" type="text/jquery-tmpl" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
     <li class='message-sent' id='message_${id}'>
         <div class="message-body">
+            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
             <div class="text">
-                <img class="profile-image" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="">
-                <h6>${username} <span class="time-mes text-mes small">${time_message}</span></h6>
+                <div class="up_handler">
+                <h6>${username}</h6>
+                <span class="time-mes text-mes small">${time_message}</span></div>
                 <p class="text-mes">${message}</p>
             </div>
         
