@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect,jsonify
 from flask_login import  LoginManager,login_user, login_required, logout_user,current_user
 from flask_restful import Api, abort
 from sqlalchemy import and_
@@ -80,7 +80,7 @@ def register():
             db_sess.commit()
             return redirect('/login')
 
-    return render_template('front/register.html', title='Авторизация', form=form, path_base=path_base)
+    return render_template('front/register.html', title='Регистрация', form=form, path_base=path_base)
 
 
 @app.route('/')
@@ -152,15 +152,13 @@ def users_menu():
         return redirect('/login')
     with db_session.create_session() as db_sess:
         users = db_sess.query(User).filter(User.id != current_user.get_id()).all()
-        return render_template('back/users.html',users=users)
+        return render_template('back/users.html',users=users,title='Пользователи')
     
 @app.route('/sittings')
 def sittings_menu():
     if not current_user.is_authenticated:
         return redirect('/login')
-    return render_template('back/sittings.html')
-
-
+    return render_template('back/sittings.html',title='Настройки')
 
 
 @app.route('/logout')

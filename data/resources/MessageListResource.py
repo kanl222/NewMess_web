@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
-from flask import jsonify, request
+from flask import jsonify, request,Response
+from flask_restful import abort
 from ..models.messages import Message
 from ..models.chat_participants import ChatParticipant
 from ..models.messages_read import MessagesRead
@@ -15,8 +16,7 @@ class MessageListResource(Resource):
         with db_session.create_session() as db_sess:
             chat_user = db_sess.query(ChatParticipant).filter_by(user_id=current_user.id, chat_id=chat_id).first()
             if not chat_user:
-                return jsonify({"statusCode": 403,
-                                "message": "Current user is not a member of the chat"}), 403
+                abort(Response(f"Current user is not a member of the chat", 403))
             messages = db_sess.query(Message).filter_by(chat_id=chat_id).all()
             messages_to_add = [MessagesRead(id_user=current_user.id, id_message=message.id)
                             for message in messages

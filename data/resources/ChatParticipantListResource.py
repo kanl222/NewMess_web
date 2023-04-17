@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
-from flask import jsonify,request
+from flask import jsonify,request,Response
 from ..models.users import User
+from flask_restful import abort
 from ..models.chat_participants import ChatParticipant
 from sqlalchemy import and_,or_
 from ..support.to_dict import to_dict
@@ -17,8 +18,8 @@ class ChatParticipantListResource(Resource):
         with db_session.create_session() as db_sess:
             chat_user = db_sess.query(ChatParticipant).filter_by(user_id=current_user.id,chat_id = chat_id).first()
             if not chat_user:
-                return jsonify({"statusCode": 403,
-                                "message": "Current user is not a member of the chat"}),403
+                abort(Response(f"Current user is not a member of the chat", 403))
+
             users = db_sess.query(User.id,User.username,User.icon).join(ChatParticipant,ChatParticipant.chat_id==chat_id).filter(and_(ChatParticipant.user_id == User.id, ChatParticipant.user_id != current_user.id)).all()
             return jsonify({"statusCode": 200,
                             "message": "The request was successful",

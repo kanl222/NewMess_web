@@ -1,3 +1,5 @@
+var changeIcon = false;
+
 function СhangeElemNavig(){
     const list = document.querySelectorAll('.list');
     const list_activate = document.querySelector('#sittings');
@@ -27,6 +29,7 @@ $('#new-icon-user').on('change', function(event) {
              contentType: false,
              processData: false,
              success: function(data) {
+               changeIcon = true;
                 img_in.setAttribute('src', `data:image/png;base64,${data['data']}`);
              },
              error: function(xhr, status, error) {
@@ -43,14 +46,19 @@ $('#new-icon-user').on('change', function(event) {
     const username = $('#username').val();
     const email = $('#email').val();
     const icon = $('.element-img .image_in_navig').attr('src').split(',')[1];
-    console.log(username,email,icon)
-
+    const currentUser = JSON.parse(sessionStorage.getItem('CurrentUser'));
+    
+   if (!username || !email) {
+      $('.error').text('Пустая строки')
+      return 0;
+   };
     const formData = {
-    'username':username || '',
-    'email': email || '',
-    'icon':icon || ''
-  };
-
+    'username':username,
+    'email': email,
+    'icon': changeIcon ? icon : '',
+   };
+   console.log(formData)
+   if (changeIcon || !(username == currentUser.username)|| !(email == currentUser.email) ) {
     $.ajax({
              method: 'PUT',
              url: '/api/user',
@@ -60,13 +68,15 @@ $('#new-icon-user').on('change', function(event) {
              contentType:"application/json",
              processData: false,
              success: function(data) {
-                img_in.setAttribute('src', `data:image/png;base64,${data['data']}`);
+                location.reload()
+                
              },
              error: function(xhr, status, error) {
-                console.log(error);
+                console.log(xhr,error);
+                $('.error').text(xhr.responseText)
                 // Handle any errors
              }
              
-  })
+  })};
 });
   

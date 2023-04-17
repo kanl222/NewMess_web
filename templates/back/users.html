@@ -1,60 +1,57 @@
 {% extends "back/base.html" %}
 
 {% block content %}
-<div class="frame">
-    <div class="search">
-        <input placeholder="Поиск..." id='search-input'>
-        <i class="bi bi-search"></i>
+    <div class="frame">
+        <div class="search">
+            <input placeholder="Поиск..." id='search-input'>
+            <i class="bi bi-search"></i>
+        </div>
+        <div class="box-list">
+            <ul id='list-users'>
+                {% for user in users %}    
+                    <li class="user_object" id='{{ user.id  }}'>
+                        <div class="user-drawer">
+                            <img class="profile-image" src="data:image/png;base64,{{user.icon}}" alt="">
+                            <div class="text">
+                            <h6>{{ user.username }}</h6></div>
+                            <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="box-list">
-        <ul id='list-users'>
-            {% for user in users %}    
-                <li class="user_object" id='{{ user.id  }}'>
-                    <div class="user-drawer">
-                        <img class="profile-image" src="data:image/png;base64,{{user.icon}}" alt="">
-                        <div class="text">
-                        <h6>{{ user.username }}</h6></div>
-                        <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
-                    </div>
-
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
-<div class='create-chat-panel'>
-    <div class="load-icon-chat">
-        <div class="icon-chat-">
-            <div class="button-load-icon-chat">
-                <a>Загрузить изображение</a>
+    <div class='create-chat-panel'>
+        <div class="load-icon-chat">
+            <div class="icon-chat-">
+                <div class="button-load-icon-chat">
+                    <i class="bi bi-upload"></i>
+                </div>
+                <input placeholder="Название чата" id='form-chat-name'>
+                <img class="profile-image icon-chat-create" src="data:image/png;base64,{{current_user.icon}}" alt="" style='display:none;'>
             </div>
-            <img class="profile-image icon-chat-create" src="data:image/png;base64,{{current_user.icon}}" alt="" style='display:none;'>
+        </div>
+        <h4>Участники чата</h4>
+        <div class="box-list">
+            <ul id='chat-participants'>    
+            </ul>
+        </div>
+        <div class='bottom_box'>
+            <div class='text-error'><p id='error-text' style='display:none'></p></div>
+            <div class="button-create-chat">
+                <a> Создать </a>
+            </div>
         </div>
     </div>
-    <input placeholder="Название чата" id='form-chat-name'>
-    <h4>Участники чата</h4>
-    <div class="box-list">
-        <ul id='chat-participants'>    
-        </ul>
-    </div>
-    <div class='bottom_box'>
-        <div class='text-error'><p id='error-text' style='display:none'>asdas</p></div>
-        <div class="button-create-chat">
-            <a> Создать </a>
-        </div>
-    </div>
-    </div>
-</div>
-<script id="template-user" type="text/jquery-tmpl" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
-    <li class="user_object" id='${id}'>
-        <div class="user-drawer">
-            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
-            <div class="text">
-            <h6>${username}</h6></div>
-            <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
-        </div>
-
-    </li>
-</script>
-<script src="static/back/js/users.js"></script>
+    <script id="template-user" type="text/jquery-tmpl">
+        <li class="user_object" id='${id}'>
+            <div class="user-drawer">
+                <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+                <div class="text">
+                <h6>${username}</h6></div>
+                <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
+            </div>
+        </li>
+    </script>
+    <script src="static/back/js/users.js"></script>
 {% endblock %}

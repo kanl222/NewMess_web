@@ -53,7 +53,7 @@ $(document).on('click', 'div.button-load-icon-chat', function(event) {
        const file = this.files[0];
        const reader = new FileReader();
        reader.onload = function() {
-          const img_in = document.querySelector('.icon-chat-create');
+          const img_in = document.querySelector('.button-load-icon-chat');
           const formData = new FormData();
           formData.append('image_base64', reader.result.split(',')[1]);
           $.ajax({
@@ -66,8 +66,7 @@ $(document).on('click', 'div.button-load-icon-chat', function(event) {
              processData: false,
              success: function(data) {
                 sessionStorage.setItem('IconChat',data['data'])
-                img_in.setAttribute('src', `data:image/png;base64,${data['data']}`);
-                img_in.setAttribute('style', 'display:block');
+                img_in.setAttribute('style', `background-image: url(data:image/png;base64,${data['data']})`);
              },
              error: function(xhr, status, error) {
                 console.log(error);

@@ -1,5 +1,5 @@
-from flask import request, jsonify,abort
-from flask_restful import Resource
+from flask import request, jsonify,Response
+from flask_restful import Resource,abort
 from sqlalchemy import and_
 from ..models.messages import Message
 from ..models.chat_participants import ChatParticipant
@@ -10,7 +10,7 @@ from flask_login import login_required, current_user
 def get_or_abort_404(session, model, identifier):
     resource = session.query(model).filter_by(id=identifier).first()
     if not resource:
-        abort(404, f"Resource with id {identifier} not found")
+        abort(Response(f"Resource with id {identifier} not found", 404))
     return resource
 
 class MessageResource(Resource):
@@ -34,8 +34,7 @@ class MessageResource(Resource):
         with db_session.create_session() as db_sess:
             chat_user = db_sess.query(ChatParticipant).filter_by(user_id=current_user.id,chat_id = data['chat_id']).first()
             if not chat_user:
-                return jsonify({"statusCode": 403,
-                                "message": "Current user is not a member of the chat"}), 403
+                abort(Response(f"Current user is not a member of the chat", 403))
             message = Message(user_id=current_user.id,
                             chat_id=data['chat_id'],
                             text=data['text'])

@@ -11,9 +11,10 @@ class Chat(SqlAlchemyBase,SerializerMixin):
     __tablename__ = 'chat'
 
     id = Column(Integer, primary_key=True, autoincrement=True,unique=True,nullable=True)
-    title = Column(String, nullable=False, unique=True)
+    title = Column(String, unique=True)
     admin_chat = Column(Integer, ForeignKey('user.id'), nullable=False)
-    icon = Column(String, nullable=True)
+    is_private_chats = Column(Integer,default=0, nullable=False)
+    icon = Column(String)
     __serialize_only__ = ('id', 'title','icon')
     
     user = relationship("User")

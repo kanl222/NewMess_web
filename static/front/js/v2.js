@@ -10,6 +10,7 @@ var render = Matter.Render.create({
         width: window.innerWidth,
         height: window.innerHeight,
         wireframes: false,
+        background: '#222'
 
     }
 });
@@ -44,7 +45,16 @@ var border = Matter.Bodies.rectangle(window.innerWidth/2, window.innerHeight/2, 
 Matter.World.add(engine.world, border);
 
 var borderTop = Matter.Bodies.rectangle(window.innerWidth/2, -10, window.innerWidth, 20, borderOptions);
-var borderBottom = Matter.Bodies.rectangle(window.innerWidth/2, window.innerHeight+10, window.innerWidth, 20, borderOptions);
+var borderBottom = Matter.Bodies.rectangle(window.innerWidth/2, window.innerHeight+10, window.innerWidth, 20, {
+    isStatic: true,
+    render: {
+        fillStyle: '#f4f4f8',
+        shadow: {
+            offsetY: -10,
+            color: 'white'
+        }
+    }
+});
 var borderLeft = Matter.Bodies.rectangle(-10, window.innerHeight/2, 20, window.innerHeight, borderOptions);
 var borderRight = Matter.Bodies.rectangle(window.innerWidth+10, window.innerHeight/2, 20, window.innerHeight, borderOptions);
 
@@ -85,6 +95,7 @@ var mouseConstraint = Matter.MouseConstraint.create(engine, {
     }
 });
 Matter.World.add(engine.world, mouseConstraint);
+
 
 // start engine
 Matter.Engine.run(engine);

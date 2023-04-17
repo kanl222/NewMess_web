@@ -1,11 +1,9 @@
+import logging
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session
 import sqlalchemy.ext.declarative as dec
-from sqlalchemy.engine import Engine
-from sqlalchemy import event
 from sqlalchemy.pool import QueuePool
-import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,13 +30,6 @@ def global_init(db_file: str):
                               max_overflow=20,
                               pool_timeout=30)
     __factory = orm.sessionmaker(bind=engine)
-
-@event.listens_for(Engine, "connect")
-def set_sqlite_pragma(dbapi_connection, connection_record):
-    cursor = dbapi_connection.cursor()
-    cursor.execute('PRAGMA synchronous=OFF')
-    cursor.execute('PRAGMA cache_size=4096')
-
 
 
 def create_session() -> Session:

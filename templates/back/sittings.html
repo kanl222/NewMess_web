@@ -8,12 +8,11 @@
     <div class="element-settings" id="input-username element element">
         <label class='element-text'>Имя пользователя:</label>
         <input class='element-input' id='username' type='username' name='username' value='{{current_user.username}}'>
-        <div class='error'></div>
+
     </div>
     <div class="element-settings" id="input-email element">
         <label class='element-text'>Почта:</label>
         <input class='element-input' id='email' type='email' name='email' value="{{current_user.email}}">
-        <div class='error'></div>
     </div>
     <!--<div class='element-settings' id="old-password element">
         <label for='old-password' class='element-text'>Старый пароль:</label>
@@ -29,9 +28,9 @@
         <label for='new-icon-user' class='element-text'>Изменить изображение:</label>
         <label for='new-icon-user' class='element-img'><img class="image_in_navig" src="data:image/png;base64,{{current_user.icon}}"></label>
         <input class='element-input' id='new-icon-user' type='file' name='new-icon-user' style='display:none;'>
-        <div class='error'></div>
     </div>
     <!--<p>Интерфейс</p>-->
+    <div class='error'></div>
     <input type='submit' class='submit' value='Сохранить настройки'>
 </div>
 <script src="static/back/js/sittings.js"></script>
