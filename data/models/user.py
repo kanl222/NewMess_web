@@ -1,6 +1,6 @@
 import datetime,time
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime,LargeBinary
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime,LargeBinary,Boolean
 from ..db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
@@ -16,6 +16,7 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = Column(String, nullable=True)
     _creation_time = Column(DateTime, nullable=True, default=datetime.datetime.now())
     icon = Column(String(512), nullable=True)
+    is_admin = Column(Boolean,nullable=True,default=0)
 
     __serialize_only__ = ['id', 'username', 'email', 'creation_time', 'icon']
 

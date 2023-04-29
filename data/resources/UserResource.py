@@ -1,6 +1,7 @@
 from flask import request,jsonify,Response
 from flask_restful import Resource, abort
-from ..models.users import User
+from ..models.user import User
+from ..models.chat_participants import ChatParticipant
 from .. import db_session
 from flask_login import login_required, current_user
 
@@ -61,7 +62,14 @@ class UserResource(Resource):
             user = get_or_abort_404(session, User, user_id)
             if user != current_user:
                 abort(Response(f"You don't have permission to delete this user", 403))
+            
+            records = session.query(ChatParticipant).filter(ChatParticipant.user_id == user.id).all()
+            
+            for record in records:
+                session.delete(record)
+                
             session.delete(user)
             session.commit()
+
             return jsonify({"statusCode": 204,
                             "message": "The request was successful"})

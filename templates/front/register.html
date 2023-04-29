@@ -8,7 +8,7 @@
             {{ form.hidden_tag() }}
             <p class='username input'>
                 {{ form.username.label }}<br>
-                {{ form.username(class="form-control", type="email") }}<br>
+                {{ form.username(class="form-control", type="username") }}<br>
                 {% for error in form.username.errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}

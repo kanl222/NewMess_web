@@ -1,4 +1,4 @@
-{% extends "back/base.html" %}
+{% extends "back/user/base.html" %}
 
 {% block content %}
 <div class='frame'>
@@ -11,7 +11,7 @@
             {% for chat in chats %}    
             <li class="chat_object" id="chat_{{ chat.id  }}">
                 <div class="friend-drawer">
-                    <img class="profile-image" src="data:image/png;base64,{{chat.icon}}" alt="">
+                    <img class="profile-image profile-image-right" src="data:image/png;base64,{{chat.icon}}" alt="">
                     <div class="text" id="last_message_in_chat_id_{{chat.last_message_id}}">
                     <h6>{{ chat.title }}</h6>
                     <p class="text-muted">{{ chat.last_message }}</p>
@@ -33,9 +33,18 @@
     <div class='chat-box-info '>
         <img class="profile-image" src="" alt="" id='icon-chat'>
         <div class="text text-chat-info">
-            <h6 id='title-chat-in-frame'>Robo Cop</h6>
-            <p class="text-count-participants">2</p>
+            <h6 id='title-chat-in-frame'></h6>
+            <p class="text-count-participants"></p>
         </div>
+        <div class='_menu-chat'>
+            <button class="dropdown menu-chat" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <!--<li class='element-dropdown-menu'><a class="dropdown-item" id='delete_chat'><i class="bi bi-trash"></i>Удалить чат</a></li>-->
+              <li class='element-dropdown-menu'><a class="dropdown-item" id='exit_chat'><i class="bi bi-box-arrow-left"></i>Выйти из чата</a></li>
+            </ul>
+          </div>
     </div>
     <div class='chat-box'>
         <ul id='chat-messages'>
@@ -51,13 +60,13 @@
             </svg></div>
     </div>
 </div>       
-</div> 
+
 
 <script src="static/back/js/chat.js"></script>
 <script id="template-chat" type="text/jquery-tmpl">
     <li class="chat_object" id="chat_${id}">
         <div class="friend-drawer">
-            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+            <img class="profile-image profile-image-right" src="data:image/png;base64,${icon}" alt="">
             <div class="text" id="last_message_in_chat_id_${id_message}">
             <h6>${title}</h6>
             <p class="text-muted"></p>
@@ -72,17 +81,20 @@
     <li class='message-sent' id='message_${id}'>
         <div class="message-body">
             <div class="text">
-                <h6><span class="time-mes text-mes small">${time_message} </span>${username}</h6>
-
+                <div class="up_handler">
+                <span class="time-mes text-mes small">${time_message}</span>
+                <h6>${username}</h6>
+            </div>
                 <p class="text-mes">${message}</p>
             </div>
-            <img class="profile-image" src="data:image/png;base64,{{icon}}" alt="">
-        </div></li>
+            <img class="profile-image profile-image-left" src="data:image/png;base64,${icon}" alt="">
+        </div>
+    </li>
 </script>
 <script id="template-message-received" type="text/jquery-tmpl" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
-    <li class='message-sent' id='message_${id}'>
+    <li class='message-received' id='message_${id}'>
         <div class="message-body">
-            <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+            <img class="profile-image profile-image-right" src="data:image/png;base64,${icon}" alt="">
             <div class="text">
                 <div class="up_handler">
                 <h6>${username}</h6>
@@ -90,6 +102,7 @@
                 <p class="text-mes">${message}</p>
             </div>
         
-        </div></li>
+        </div>
+    </li>
 </script>
 {% endblock %}

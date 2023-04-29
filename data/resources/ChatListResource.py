@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_restful import Resource,abort
 from sqlalchemy import and_
 from flask_login import login_required, current_user
-from ..models.chats import Chat
+from ..models.chat import Chat
 from ..models.chat_participants import ChatParticipant
 from ..models.chats_read import ChatsRead
 from .. import db_session

@@ -16,6 +16,10 @@ var stringToHTML = function (str) {
 
 };
 
+function clearList(lst) {
+  return lst.filter(num => num !== null);
+}
+
 var list_user_in_chat = [];
 
 $(document).ready(function() {
@@ -23,6 +27,8 @@ $(document).ready(function() {
     const list_activate = document.querySelector('#users');
     list.forEach((item)=> item.classList.remove('active'));
     list_activate.classList.add('active');
+    var text_tittle = $('#form-chat-name');
+    text_tittle.prop('disabled', true);
 });
 
 $(document).on('click', 'div .button-add-user-in-chat', function(e) {
@@ -32,6 +38,11 @@ $(document).on('click', 'div .button-add-user-in-chat', function(e) {
     this.replaceWith(dom)
     list_user_in_chat.push(parentEl.attr('id'))
     parentEl.appendTo($('#chat-participants'));
+
+    var text_tittle = $('#form-chat-name');
+    if (list_user_in_chat.length >= 2 && !text_tittle.attr('disabled') && !text_tittle.attr('disabled') ) {
+      text_tittle.prop('disabled', false);
+    };
 });
 
 $(document).on('click', 'div .button-delete-user-from-chat', function(e) {
@@ -40,11 +51,19 @@ $(document).on('click', 'div .button-delete-user-from-chat', function(e) {
     dom.className = 'button-add-user-in-chat';
     this.replaceWith(dom)
     delete list_user_in_chat[list_user_in_chat.indexOf(parentEl.attr('id'))]
-    console.log(list_user_in_chat)
     parentEl.appendTo($('#list-users'));
+    clearList(list_user_in_chat);
+
+    var load_icon = $("div.button-load-icon-chat");
+    var text_tittle = $('#form-chat-name');
+    if (list_user_in_chat.length < 2 && text_tittle.attr('disabled') && text_tittle.attr('disabled') ) {
+      text_tittle.prop('disabled', true);
+    };
 });
 
 $(document).on('click', 'div.button-load-icon-chat', function(event) {
+  var load_icon = $("div.button-load-icon-chat");
+  if (list_user_in_chat.length < 2) {return 0};
     const input = document.createElement('input');
     input.type = 'file';
  
@@ -84,8 +103,8 @@ $(document).on('click', 'div.button-load-icon-chat', function(event) {
  $(document).on('click', 'div.button-create-chat', function(event) {
     const error_mes = $('#error-text');
     const title_chat = $('#form-chat-name').val();
-  
-    if (!title_chat) {
+    console.log(list_user_in_chat)
+    if (!title_chat && list_user_in_chat.length >= 2) {
       _error('Не указано название чата');
       return 0;
     } else if (!list_user_in_chat.toString()) {

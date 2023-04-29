@@ -62,7 +62,7 @@ Matter.World.add(engine.world, [borderTop, borderBottom, borderLeft, borderRight
 
 // add rectangle objects
 var rectangles = [];
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 20; i++) {
     var rectangle = Matter.Bodies.rectangle(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 50, 50);
     rectangles.push(rectangle);
     Matter.World.add(engine.world, rectangle);
@@ -70,7 +70,7 @@ for (var i = 0; i < 10; i++) {
 
 // add circular objects
 var circles = [];
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < 15; i++) {
     var circle = Matter.Bodies.circle(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 20);
     circles.push(circle);
     Matter.World.add(engine.world, circle);
@@ -78,7 +78,7 @@ for (var i = 0; i < 5; i++) {
 
 // add triangle objects
 var triangles = [];
-for (var i = 0; i < 5; i++) {
+for (var i = 0; i < 20; i++) {
     var triangle = Matter.Bodies.polygon(Math.random()*window.innerWidth, Math.random()*window.innerHeight, 3, 30);
     triangles.push(triangle);
     Matter.World.add(engine.world, triangle);

@@ -30,10 +30,14 @@ def global_init(db_file: str):
                               max_overflow=20,
                               pool_timeout=30)
     __factory = orm.sessionmaker(bind=engine)
+    from . import __all_models
+    SqlAlchemyBase.metadata.create_all(engine)
 
 
 def create_session() -> Session:
     global __factory
+    if __factory is None:
+        raise ValueError("Необходимо вызвать функцию global_init сначала")
     session = __factory()
     session.expire_on_commit = False
     return session

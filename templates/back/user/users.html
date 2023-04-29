@@ -1,5 +1,4 @@
-{% extends "back/base.html" %}
-
+{% extends "back/user/base.html" %}
 {% block content %}
     <div class="frame">
         <div class="search">
@@ -11,7 +10,7 @@
                 {% for user in users %}    
                     <li class="user_object" id='{{ user.id  }}'>
                         <div class="user-drawer">
-                            <img class="profile-image" src="data:image/png;base64,{{user.icon}}" alt="">
+                            <img class="profile-image profile-image-right" src="data:image/png;base64,{{user.icon}}" alt="">
                             <div class="text">
                             <h6>{{ user.username }}</h6></div>
                             <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>
@@ -46,7 +45,7 @@
     <script id="template-user" type="text/jquery-tmpl">
         <li class="user_object" id='${id}'>
             <div class="user-drawer">
-                <img class="profile-image" src="data:image/png;base64,${icon}" alt="">
+                <img class="profile-image profile-image-right" src="data:image/png;base64,${icon}" alt="">
                 <div class="text">
                 <h6>${username}</h6></div>
                 <div class='button-add-user-in-chat'><i class="bi bi-plus-lg"></i></div>

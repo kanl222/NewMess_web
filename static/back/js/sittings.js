@@ -60,9 +60,10 @@ $('.submit').on('click', (event) => {
     email,
     icon: changeIcon ? icon : '',
   };
-
+  console.log(formData)
 
   if (changeIcon || !(username === currentUser.username) || !(email === currentUser.email)) {
+    console.log(changeIcon)
     $.ajax({
       method: 'PUT',
       url: '/api/user',
