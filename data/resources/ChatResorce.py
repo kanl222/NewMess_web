@@ -66,7 +66,7 @@ class ChatResource(Resource):
 
             session.commit()
             session.close()
-            return jsonify({"statusCode": 200, "message": "The request was successful"})
+            return jsonify({"statusCode": 200, "message": "The request was successful","data":chat.to_dict()})
 
     def put(self, chat_id):
         with db_session.create_session() as session:

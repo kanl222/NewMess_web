@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from ..models.chat import Chat
 from ..models.chat_participants import ChatParticipant
 from ..models.chats_read import ChatsRead
+from ..models.user import User
 from .. import db_session
 
 
@@ -29,8 +30,22 @@ class ChatListResource(Resource):
                     .join(ChatParticipant, ChatParticipant.user_id==current_user_id)\
                     .filter(ChatParticipant.chat_id == Chat.id)\
                     .all()
-
-            chats_dict = [chat.to_dict() for chat in chats]
+            chats_dict = []
+            for chat in chats:
+                if chat.is_private_chats:
+                    another_user: User = db_sess.query(User)\
+                    .join(ChatParticipant, ChatParticipant.chat_id == chat.id)\
+                    .filter(and_(User.id == ChatParticipant.user_id,ChatParticipant.user_id != current_user_id))\
+                    .first()
+                    chat_dict = {
+                            'id': chat.id,
+                            'title': another_user.username,
+                            'icon': another_user.icon
+                                }
+                                
+                    chats_dict.append(chat_dict)
+                else:
+                    chats_dict.append(chat.to_dict())
             chats_to_add = [ChatsRead(id_user=current_user_id, id_chat=chat.id) for chat in chats
                             if not db_sess.query(ChatsRead).filter_by(id_user=current_user_id, id_chat=chat.id).first()]
 

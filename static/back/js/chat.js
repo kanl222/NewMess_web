@@ -138,13 +138,21 @@ function set_count_new_message(idChat, value) {
   } else {
     if (count_new_message.val() > 1) {
       count_new_message.text('')
-        .addClass('flip');
+        .addClass('flip').delay(1000)
+        .queue(function(){
+          $(this).removeClass('flip');
+          $(this).dequeue();
+        });
       count_new_message.text(value);
     }
     else {
       count_new_message.text(value)
         .css('background', 'red').show('slow')
-        .addClass('flip');
+        .delay(500).addClass('flip').delay(1000)
+        .queue(function(){
+          $(this).removeClass('flip');
+          $(this).dequeue();
+        });
     };
   }
 };

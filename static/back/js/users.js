@@ -193,7 +193,8 @@ $(document).on('click', 'div.button-load-icon-chat', function(event) {
       contentType:"application/json",
       processData: false,
       success: function(response) {
-        location.reload();
+        url=`/mes?chat_id=${response.data.id}`
+      window.location.replace(url);
       },
       error: function(xhr, status, error) {
         console.log(error);

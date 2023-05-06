@@ -350,6 +350,7 @@ hr {
   background-color: rgb(66, 66, 66);
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
   padding: 5px 10px;
+  z-index: 4;
 }
 
 
@@ -850,6 +851,12 @@ p.text-mes {
   white-space: nowrap;
 }
 
+.text h6 {
+  width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .settings-menu {
   display: block;
   width: 600px;
@@ -1057,6 +1064,9 @@ p.text-mes {
   .frame {
     width: var(--frame-width);
   }
+  .frame .text h6 {
+    width: 160px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1074,6 +1084,12 @@ p.text-mes {
 
   .frame {
     width: var(--frame-width);
+
+
+    
+  }
+  .frame .text h6 {
+    width: 160px;
   }
 
 }
@@ -1093,6 +1109,11 @@ p.text-mes {
 
   .frame {
     width: var(--frame-width);
+
+
+  }
+  .frame .text h6 {
+    width: 160px;
   }
 
 }
@@ -1113,6 +1134,11 @@ p.text-mes {
 
   .frame {
     width: var(--frame-width);
+
+
+  }
+  .frame .text h6 {
+    width: 210px;
   }
 
 }
@@ -1133,6 +1159,11 @@ p.text-mes {
 
   .frame {
     width: var(--frame-width);
+
+  }
+
+  .frame .text h6 {
+    width: 210px;
   }
 
 }
