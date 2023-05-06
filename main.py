@@ -3,12 +3,14 @@ from flask_login import  LoginManager,login_user, login_required, logout_user,cu
 from sqlalchemy import and_
 from data.models.user import User
 from data.forms import LoginForm, RegisterForm
-from data.support import create_avatar
+from data.support.create_avatar import generate_avatar
 from data.api import api_chat,api_search,api_support
 from data.routes import routes
 from data import db_session
 from uuid import uuid4
 import ssl
+import os
+from flask import send_from_directory
 
 import argparse
 
@@ -70,14 +72,19 @@ def register():
                                         path_base=path_base)
             user = User()
             user.username = form.username.data
-            user.email = form.email.data
+            user.email = form.email.data    
             user.set_password(form.password_1.data)
-            user.icon = create_avatar(form.username.data, return_PNG_bytes=True)
+            user.icon = generate_avatar(form.username.data, return_PNG_bytes=True)
             db_sess.add(user)
             db_sess.commit()
             return redirect('/login')
 
     return render_template('front/register.html', title='Регистрация', form=form, path_base=path_base)
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/login')
+
 
 @app.route('/')
 def index():
@@ -86,6 +93,12 @@ def index():
     if current_user.is_admin:
         return redirect('/admin/users')
     return redirect('/mes')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static/back/img'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -1,4 +1,4 @@
-from flask import  render_template, redirect, Blueprint
+from flask import  render_template, redirect, Blueprint,request
 from flask_login import  login_user, login_required, logout_user, current_user
 from sqlalchemy import and_
 from data.models.user import User
@@ -24,7 +24,7 @@ blueprint = Blueprint(
 @blueprint.route('/mes')
 def chats_menu():
     if not current_user.is_authenticated:
-        return redirect('/login')
+        return redirect('/login')#
     current_user_id = current_user.id
     with db_session.create_session() as db_sess:
         chats = db_sess.query(Chat)\
@@ -89,7 +89,11 @@ def chats_menu():
                 chats_to_add.append(ChatsRead(id_user=current_user_id, id_chat=chat.id))
                 db_sess.add_all(chats_to_add)
                 db_sess.commit()
-    return render_template('back/user/chats.html',title='Мессенджер',chats=chats_)
+
+    if request.args.get('chat_id',0):
+        return render_template('back/user/chats.html', title='Мессенджер', chats=chats_, open_chat_id=request.args.get('chat_id'))
+    else:
+        return render_template('back/user/chats.html', title='Мессенджер', chats=chats_)
 
 @blueprint.route('/users')
 def users_menu():

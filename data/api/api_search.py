@@ -20,6 +20,7 @@ def get_search_users():
             User.username.like('%{}%'.format(search_value)), 
             and_(User.id != current_user.get_id(),User.is_admin == 0)
         )).all() 
+        print(users)
         users_dict = [user.to_dict() for user in users]
         return jsonify({ 
             "statusCode": 200, 
@@ -44,14 +45,15 @@ def get_search_chats():
         )).all()
         chats_private_chat = session.query(Chat) \
             .join(ChatParticipant, Chat.id == ChatParticipant.chat_id) \
-            .join(User, ChatParticipant.user_id == User.id) \
+            .join(User, ChatParticipant.user_id == User.id).\
+            filter(ChatParticipant.chat_id.in_(
+                    session.query(ChatParticipant.chat_id).\
+                    filter(ChatParticipant.user_id == current_user.id)))\
             .filter(and_(
-                ChatParticipant.user_id == current_user.id,
                 User.username.like('%{}%'.format(search_value)),
                 Chat.is_private_chats == True
             )).all()
 
-        print(chats_private_chat)
         chats_dict = []
         for chat in chats_not_private_chat:
             last_message = session.query(Message) \

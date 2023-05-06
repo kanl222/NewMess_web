@@ -1,5 +1,5 @@
 import flask
-from flask import request,abort,jsonify
+from flask import request,abort,jsonify,redirect
 from sqlalchemy import and_,or_
 import json
 import datetime
@@ -14,8 +14,9 @@ blueprint = flask.Blueprint(
 )
 
 @blueprint.route('/api/update')
-@login_required
 def get_update():
+    if not current_user.is_authenticated:
+        abort(404)
     current_user_id = current_user.id
     with db_session.create_session() as db_sess:
         chats = db_sess.query(Chat.id)\
@@ -93,3 +94,35 @@ def get_new_massage(chat_id):
                 "new_message": new_message
             }
         })
+
+
+@blueprint.route('/api/create-private-chat/<int:user_id>')
+@login_required
+def create_private_chat(user_id):
+    with db_session.create_session() as session:
+        common_chat = session.query(ChatParticipant.chat_id)\
+                .join(Chat,Chat.is_private_chats == True)\
+                .filter(Chat.id == ChatParticipant.chat_id).\
+                filter(ChatParticipant.user_id == user_id).\
+                filter(ChatParticipant.chat_id.in_(
+                    session.query(ChatParticipant.chat_id).\
+                    filter(ChatParticipant.user_id == current_user.id)
+                )).first()
+        print(common_chat)
+
+        
+        if common_chat:
+            return jsonify({"statusCode": 202, "message": "The request was successful", 'data':{"chat_id":common_chat[0]}})
+            
+        chat = Chat(is_private_chats=True)
+        session.add(chat)
+        session.commit()
+        session.refresh(chat)
+        
+        list_user_in_chat = [current_user.id, user_id]
+        chat_participants = [ChatParticipant(chat_id=chat.id, user_id=user_id) for user_id in list_user_in_chat]
+        
+        session.add_all(chat_participants)
+        session.commit()
+        return jsonify({"statusCode": 200, "message": "The request was successful", 'data':{"chat_id":chat.id}})
+

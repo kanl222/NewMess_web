@@ -25,7 +25,7 @@
             </div>
             {% endfor %}
             </p>
-            <p class='remember_me'>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            <p class='remember_me'>{{ form.remember_me(class="remember-me-checkbox") }} {{ form.remember_me.label }}</p>
             <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         </form>
         <a class="btn btn-primary" id='submit_reg' href='/register'>Зарегистрироваться</a>

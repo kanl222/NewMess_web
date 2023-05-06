@@ -17,11 +17,11 @@
                     <p class="text-muted">{{ chat.last_message }}</p>
                     </div>
                     {% if chat.count_new_message %}
-                    <div class="count-new-message">{{ chat.count_new_message }}</div>
+                    <div class="count-new-message"><span class='count-new-message-text'>{{ chat.count_new_message }}</span></div>
                     {% else %}
-                    <div class="count-new-message" style="background:inherit"></div>
+                    <div class="count-new-message" ><span class='count-new-message-text' style="background:inherit"></span></div>
                     {% endif %}
-                    <div class="time text-muted small">{{ chat.send_time }}</div>
+                    <div class="time text-muted small"><span class='time-text'>{{ chat.send_time }}</span></div>
                   </div>
             </li>
             {% endfor %}    
@@ -63,6 +63,9 @@
 
 
 <script src="static/back/js/chat.js"></script>
+{% if open_chat_id %}
+   <script>open_chat('{{open_chat_id}}')</script>
+{% endif %}
 <script id="template-chat" type="text/jquery-tmpl">
     <li class="chat_object" id="chat_${id}">
         <div class="friend-drawer">
@@ -73,7 +76,7 @@
             </div>
             <div class="count-new-message" style="background:inherit"></div>
 
-            <div class="time text-muted small"></div>
+            <div class="time text-muted small"><span class='time-text'></span></div>
         </div>
     
 </script>

@@ -52,8 +52,6 @@ class ChatResource(Resource):
                 abort(Response(f"Title already exists", 400))
             if icon: 
                 chat = Chat(title=data['title'], icon=icon,admin_chat=current_user.id)
-            elif len(list_user_in_chat) == 1:
-                chat = Chat(is_private_chats=True)
             else:
                 chat = Chat(title=data['title'], icon=generate_avatar(data['title'], return_PNG_bytes=True),admin_chat=current_user.id)
                     
