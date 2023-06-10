@@ -4,7 +4,7 @@ from sqlalchemy import and_
 from flask_restful import abort
 from flask_restful import Resource, abort
 from ..models.chat import Chat
-from ..models.user import User
+from ..models.users import User
 from ..models.chat_participants import ChatParticipant
 from ..models.messages import Message
 from ..support.create_avatar import generate_avatar

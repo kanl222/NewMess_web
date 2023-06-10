@@ -4,7 +4,7 @@ from sqlalchemy import and_
 from flask_login import login_required, current_user
 from ..models.chat_participants import ChatParticipant
 from ..models.chats_read import ChatsRead
-from ..models.user import User
+from ..models.users import User
 from ..models.chat import Chat
 from ..models.messages import Message
 from .. import db_session

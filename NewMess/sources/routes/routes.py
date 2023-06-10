@@ -1,15 +1,15 @@
 from flask import  render_template, redirect, Blueprint,request
 from flask_login import  login_user, login_required, logout_user, current_user
 from sqlalchemy import and_
-from data.models.user import User
-from data.models.chat import Chat
-from data.models.chats_read import ChatsRead
-from data.models.chat_participants import ChatParticipant
-from data.models.messages import Message
-from data.models.messages_read import MessagesRead
-from data.forms import LoginForm, RegisterForm
-from data.support.create_avatar import generate_avatar
-from data import db_session
+from ..models.users import User
+from ..models.chat import Chat
+from ..models.chats_read import ChatsRead
+from ..models.chat_participants import ChatParticipant
+from ..models.messages import Message
+from ..models.messages_read import MessagesRead
+from ..forms import LoginForm, RegisterForm
+from ..support.create_avatar import generate_avatar
+from .. import db_session
 
 path_base = 'front/base.html'
 

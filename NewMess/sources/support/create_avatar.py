@@ -5,7 +5,7 @@ import random
 from base64 import b64encode
 from io import BytesIO
 
-font_path = os.path.abspath("data/font/arialmt.ttf")
+font_path = os.path.abspath("sources/font/arialmt.ttf")
 font = ImageFont.truetype(font_path, 16)
 
 bg_color_array = np.zeros((48, 48, 3), dtype=np.uint8)

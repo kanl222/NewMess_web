@@ -15,7 +15,7 @@ class User(SqlAlchemyBase, UserMixin):
     email = Column(String, nullable=True, unique=True, index=True)
     hashed_password = Column(String, nullable=True)
     _creation_time = Column(DateTime, nullable=True, default=datetime.datetime.now())
-    icon = Column(String(512), nullable=True)
+    icon = Column(String(), nullable=True)
     is_admin = Column(Boolean,nullable=True,default=0)
 
     __serialize_only__ = ['id', 'username', 'email', 'creation_time', 'icon']

@@ -1,6 +1,6 @@
 from flask import request,jsonify,Response
 from flask_restful import Resource, abort
-from ..models.user import User
+from ..models.users import User
 from ..models.chat_participants import ChatParticipant
 from .. import db_session
 from flask_login import login_required, current_user

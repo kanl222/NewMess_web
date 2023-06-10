@@ -1,12 +1,12 @@
 from flask import Flask, render_template, redirect,jsonify
 from flask_login import  LoginManager,login_user, login_required, logout_user,current_user
 from sqlalchemy import and_
-from data.models.user import User
-from data.forms import LoginForm, RegisterForm
-from data.support.create_avatar import generate_avatar
-from data.api import api_chat,api_search,api_support
-from data.routes import routes
-from data import db_session
+from sources.models.users import User
+from sources.forms import LoginForm, RegisterForm
+from sources.support.create_avatar import generate_avatar
+from sources.api import api_chat,api_search,api_support
+from sources.routes import routes
+from sources import db_session
 from uuid import uuid4
 import ssl
 import os
@@ -126,7 +126,7 @@ def register_blueprint():
 
 def register_api():
     from flask_restful import Api
-    from data.resources import ChatListResource, ChatResorce, UserListResource,UserResource,MessageListResource,MessageResource,ChatParticipantListResource,ChatParticipantResource
+    from sources.resources import ChatListResource, ChatResorce, UserListResource,UserResource,MessageListResource,MessageResource,ChatParticipantListResource,ChatParticipantResource
 
     api = Api(app)
     api.add_resource(ChatResorce.ChatResource, '/api/chat', '/api/chat/<int:chat_id>')

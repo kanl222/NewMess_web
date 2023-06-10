@@ -1,8 +1,6 @@
 import flask
 from flask import request,abort,jsonify,redirect
 from sqlalchemy import and_,or_
-import json
-import datetime
 from flask_login import current_user,login_required
 from .. import db_session
 from ..__all_models import User,Chat,ChatParticipant,Message,MessagesRead,ChatsRead

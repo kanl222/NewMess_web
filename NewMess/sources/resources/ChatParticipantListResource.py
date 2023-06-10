@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask import jsonify,request,Response
-from ..models.user import User
+from ..models.users import User
 from flask_restful import abort
 from ..models.chat_participants import ChatParticipant
 from sqlalchemy import and_,or_

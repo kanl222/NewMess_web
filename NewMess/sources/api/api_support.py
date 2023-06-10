@@ -1,6 +1,5 @@
 import io
 import base64
-from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
 from flask import request, jsonify,Blueprint
 
@@ -21,11 +20,7 @@ def resize_image():
     image_base64 = request.form['image_base64']
     image_bytes = base64.b64decode(image_base64)
 
-    with ThreadPoolExecutor(max_workers=1) as executor:
-        future = executor.submit(process_image, image_bytes)
-        img_resized = future.result()
-
-    encoded_image_base64 = base64.b64encode(img_resized).decode('utf-8')
+    encoded_image_base64 = base64.b64encode(process_image(image_bytes)).decode('utf-8')
     response = {
         'data': encoded_image_base64,
         'metadata': {
