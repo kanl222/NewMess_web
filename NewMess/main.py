@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect,jsonify
-from flask_login import  LoginManager,login_user, login_required, logout_user,current_user
+from flask import Flask, render_template, redirect, jsonify
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy import and_
 from sources.models.users import User
 from sources.forms import LoginForm, RegisterForm
 from sources.support.create_avatar import generate_avatar
-from sources.api import api_chat,api_search,api_support
+from sources.api import api_chat, api_search, api_support
 from sources.routes import routes
 from sources import db_session
 from uuid import uuid4
@@ -28,8 +28,6 @@ else:
 
 print(f'SSL certificate path: {args.ssl_certifacet}')
 
-
-
 app = Flask(__name__)
 login_manager = LoginManager()
 app.config['SECRET_KEY'] = uuid4().hex
@@ -37,7 +35,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/DataBase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db_session.global_init('db/DataBase.db')
-
 
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
@@ -47,13 +44,15 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(user_id):
     with db_session.create_session() as db_sess:
-        return db_sess.get(User,int(user_id))
+        return db_sess.get(User, int(user_id))
+
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect('/')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -62,17 +61,17 @@ def register():
         with db_session.create_session() as db_sess:
             if form.password_2.data != form.password_1.data:
                 return render_template('front/register.html',
-                                        message="пароли не совпадают",
-                                        form=form,
-                                        path_base=path_base)
+                                       message="пароли не совпадают",
+                                       form=form,
+                                       path_base=path_base)
             if db_sess.query(User).filter(User.email == form.email.data).first():
                 return render_template('front/register.html',
-                                        message="Данный email уже есть",
-                                        form=form,
-                                        path_base=path_base)
+                                       message="Данный email уже есть",
+                                       form=form,
+                                       path_base=path_base)
             user = User()
             user.username = form.username.data
-            user.email = form.email.data    
+            user.email = form.email.data
             user.set_password(form.password_1.data)
             user.icon = generate_avatar(form.username.data, return_PNG_bytes=True)
             db_sess.add(user)
@@ -80,6 +79,7 @@ def register():
             return redirect('/login')
 
     return render_template('front/register.html', title='Регистрация', form=form, path_base=path_base)
+
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
@@ -98,7 +98,8 @@ def index():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/back/img'),
-                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -109,14 +110,15 @@ def login():
         with db_session.create_session() as db_sess:
             user = db_sess.query(User).filter(User.email == form.email.data).first()
             if user and user.check_password(form.password.data):
-                login_user(user, remember=form.remember_me.data)          
+                login_user(user, remember=form.remember_me.data)
                 return redirect("/")
 
             return render_template('front/login.html',
-                                    message="Неправильный логин или пароль",
-                                    form=form,
-                                    path_base=path_base)
+                                   message="Неправильный логин или пароль",
+                                   form=form,
+                                   path_base=path_base)
     return render_template('front/login.html', title='Авторизация', form=form, path_base=path_base)
+
 
 def register_blueprint():
     app.register_blueprint(routes.blueprint)
@@ -124,9 +126,11 @@ def register_blueprint():
     app.register_blueprint(api_support.blueprint)
     app.register_blueprint(api_search.blueprint)
 
+
 def register_api():
     from flask_restful import Api
-    from sources.resources import ChatListResource, ChatResorce, UserListResource,UserResource,MessageListResource,MessageResource,ChatParticipantListResource,ChatParticipantResource
+    from sources.resources import ChatListResource, ChatResorce, UserListResource, UserResource, MessageListResource, \
+        MessageResource, ChatParticipantListResource, ChatParticipantResource
 
     api = Api(app)
     api.add_resource(ChatResorce.ChatResource, '/api/chat', '/api/chat/<int:chat_id>')
@@ -136,18 +140,19 @@ def register_api():
     api.add_resource(MessageResource.MessageResource, '/api/message', '/api/message/<int:user_id>')
     api.add_resource(MessageListResource.MessageListResource, '/api/messages')
     api.add_resource(ChatParticipantListResource.ChatParticipantListResource, '/api/chatparticipants/<int:chat_id>')
-    api.add_resource(ChatParticipantResource.ChatParticipantResource, '/api/chatparticipant', '/api/chatparticipant/<int:chat_id>')
+    api.add_resource(ChatParticipantResource.ChatParticipantResource, '/api/chatparticipant',
+                     '/api/chatparticipant/<int:chat_id>')
 
-    
+
 def main():
     register_blueprint()
     register_api()
     if args.ssl_certifacet:
         context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
         context.load_cert_chain('example.crt', 'example.key')
-        app.run(debug=True,threaded=True,ssl_context=context)
+        app.run(debug=True, threaded=True, ssl_context=context)
     else:
-        app.run(debug=True,threaded=True)
+        app.run(debug=True, threaded=True)
 
 
 if __name__ == '__main__':

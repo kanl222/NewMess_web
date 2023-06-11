@@ -16,5 +16,3 @@ class RegisterForm(FlaskForm):
     password_1 = PasswordField('Пароль', validators=[DataRequired()])
     password_2 = PasswordField('Повторите пароль', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
-
-

@@ -4,11 +4,7 @@ from sqlalchemy.orm import relationship
 from ..db_session import SqlAlchemyBase
 
 
-
-
 class Files(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'files'
-    id = Column(Integer, primary_key=True,autoincrement=True,unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
     type_file = Column(String)
-
-

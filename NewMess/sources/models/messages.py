@@ -23,7 +23,7 @@ class Message(SqlAlchemyBase, SerializerMixin):
     def __repr__(self):
         return f"<Message(id={self.id}, user_id={self.user_id}, chat_id={self.chat_id},send_time={self.send_time!r}, text={self.text!r})>"
 
-    def to_dict(self,get_millis=True):
+    def to_dict(self, get_millis=True):
         if get_millis:
             return {
                 'id': self.id,
@@ -40,6 +40,6 @@ class Message(SqlAlchemyBase, SerializerMixin):
                 'send_time': str(self.send_time),
                 'text': self.text
             }
-        
+
     def date_to_millis(self):
         return int(time.mktime(self.send_time.timetuple())) * 1000

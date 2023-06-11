@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_restful import Resource,abort
+from flask_restful import Resource, abort
 from sqlalchemy import and_
 from flask_login import login_required, current_user
 from ..models.chat_participants import ChatParticipant
@@ -24,8 +24,8 @@ class ChatParticipantResource(Resource):
                 }
                 res.append(chat_participant)
             return jsonify(res)
-    
-    def post(self,chat_id=0):
+
+    def post(self, chat_id=0):
         if request.json.get('chat_id'):
             chat_id = request.json.get('chat_id')
         else:
@@ -36,23 +36,24 @@ class ChatParticipantResource(Resource):
             db_sess.add(participant)
             db_sess.commit()
             return jsonify({'message': f'Participant {user_id} added to chat {chat_id}.'})
-        
-    def put(self,chat_id=0):
+
+    def put(self, chat_id=0):
         if request.json.get('chat_id'):
             chat_id = request.json.get('chat_id')
         else:
             chat_id = chat_id
         user_id = current_user.id
         with db_session.create_session() as db_sess:
-            participant = db_sess.query(ChatParticipant).filter(ChatParticipant.chat_id == chat_id, ChatParticipant.user_id == user_id).first()
+            participant = db_sess.query(ChatParticipant).filter(ChatParticipant.chat_id == chat_id,
+                                                                ChatParticipant.user_id == user_id).first()
             if participant is None:
                 return jsonify({'error': f'Participant {user_id} not found in chat {chat_id}.'})
             else:
                 participant.is_muted = request.json.get('is_muted', participant.is_muted)
                 db_sess.commit()
                 return jsonify({'message': f'Participant {user_id} updated in chat {chat_id}.'})
-        
-    def delete(self,chat_id=0):
+
+    def delete(self, chat_id=0):
         print(chat_id)
         if not chat_id:
             chat_id = request.json.get('chat_id')
@@ -61,8 +62,10 @@ class ChatParticipantResource(Resource):
         user_id = current_user.id
         with db_session.create_session() as db_sess:
             print(chat_id)
-            participant = db_sess.query(ChatParticipant).filter(ChatParticipant.chat_id == chat_id, ChatParticipant.user_id == user_id).first()
-            users = db_sess.query(User).join(ChatParticipant,ChatParticipant.chat_id==chat_id).filter(and_(ChatParticipant.user_id == User.id, ChatParticipant.user_id != current_user.id)).count()
+            participant = db_sess.query(ChatParticipant).filter(ChatParticipant.chat_id == chat_id,
+                                                                ChatParticipant.user_id == user_id).first()
+            users = db_sess.query(User).join(ChatParticipant, ChatParticipant.chat_id == chat_id).filter(
+                and_(ChatParticipant.user_id == User.id, ChatParticipant.user_id != current_user.id)).count()
             if participant is None:
                 return jsonify({'error': f'Participant {user_id} not found in chat {chat_id}.'})
             else:
@@ -73,4 +76,3 @@ class ChatParticipantResource(Resource):
                     db_sess.query(ChatsRead).filter(ChatsRead.id_chat == chat_id).delete()
                 db_sess.commit()
                 return jsonify({'message': f'Participant {user_id} removed from chat {chat_id}.'})
-
