@@ -1,7 +1,7 @@
 import io
 import base64
 from PIL import Image
-from flask import request, jsonify,Blueprint
+from flask import request, jsonify, Blueprint
 
 blueprint = Blueprint(
     'api_support',
@@ -10,12 +10,10 @@ blueprint = Blueprint(
 )
 
 
-
 @blueprint.route('/resize_image', methods=['POST'])
 def resize_image():
     if 'image_base64' not in request.form:
         return jsonify({'error': 'No image uploaded'}), 400
-
 
     image_base64 = request.form['image_base64']
     image_bytes = base64.b64decode(image_base64)
@@ -30,6 +28,7 @@ def resize_image():
         }
     }
     return jsonify(response), 200
+
 
 def process_image(image_bytes):
     with Image.open(io.BytesIO(image_bytes)) as img:

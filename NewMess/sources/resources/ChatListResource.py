@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_restful import Resource,abort
+from flask_restful import Resource, abort
 from sqlalchemy import and_
 from flask_login import login_required, current_user
 from ..models.chat import Chat
@@ -18,31 +18,31 @@ class ChatListResource(Resource):
         with db_session.create_session() as db_sess:
             if 'list_chats_id' in args:
                 list_chats_id = args['list_chats_id'].split(',')
-                chats = db_sess.query(Chat)\
-                    .join(ChatParticipant, ChatParticipant.user_id==current_user_id)\
-                    .filter(and_(Chat.id == ChatParticipant.chat_id, Chat.id.in_(list_chats_id)))\
-                    .all() if len(list_chats_id) > 1 else db_sess.query(Chat)\
-                    .join(ChatParticipant, ChatParticipant.user_id==current_user_id)\
-                    .filter(and_(Chat.id == ChatParticipant.chat_id, Chat.id == list_chats_id[0]))\
+                chats = db_sess.query(Chat) \
+                    .join(ChatParticipant, ChatParticipant.user_id == current_user_id) \
+                    .filter(and_(Chat.id == ChatParticipant.chat_id, Chat.id.in_(list_chats_id))) \
+                    .all() if len(list_chats_id) > 1 else db_sess.query(Chat) \
+                    .join(ChatParticipant, ChatParticipant.user_id == current_user_id) \
+                    .filter(and_(Chat.id == ChatParticipant.chat_id, Chat.id == list_chats_id[0])) \
                     .all()
             else:
-                chats = db_sess.query(Chat)\
-                    .join(ChatParticipant, ChatParticipant.user_id==current_user_id)\
-                    .filter(ChatParticipant.chat_id == Chat.id)\
+                chats = db_sess.query(Chat) \
+                    .join(ChatParticipant, ChatParticipant.user_id == current_user_id) \
+                    .filter(ChatParticipant.chat_id == Chat.id) \
                     .all()
             chats_dict = []
             for chat in chats:
                 if chat.is_private_chats:
-                    another_user: User = db_sess.query(User)\
-                    .join(ChatParticipant, ChatParticipant.chat_id == chat.id)\
-                    .filter(and_(User.id == ChatParticipant.user_id,ChatParticipant.user_id != current_user_id))\
-                    .first()
+                    another_user: User = db_sess.query(User) \
+                        .join(ChatParticipant, ChatParticipant.chat_id == chat.id) \
+                        .filter(and_(User.id == ChatParticipant.user_id, ChatParticipant.user_id != current_user_id)) \
+                        .first()
                     chat_dict = {
-                            'id': chat.id,
-                            'title': another_user.username,
-                            'icon': another_user.icon
-                                }
-                                
+                        'id': chat.id,
+                        'title': another_user.username,
+                        'icon': another_user.icon
+                    }
+
                     chats_dict.append(chat_dict)
                 else:
                     chats_dict.append(chat.to_dict())

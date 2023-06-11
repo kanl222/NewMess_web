@@ -1,6 +1,6 @@
-import datetime,time
+import datetime, time
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime,LargeBinary,Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, LargeBinary, Boolean
 from ..db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
@@ -16,11 +16,10 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = Column(String, nullable=True)
     _creation_time = Column(DateTime, nullable=True, default=datetime.datetime.now())
     icon = Column(String(), nullable=True)
-    is_admin = Column(Boolean,nullable=True,default=0)
+    is_admin = Column(Boolean, nullable=True, default=0)
 
     __serialize_only__ = ['id', 'username', 'email', 'creation_time', 'icon']
 
-    
     def __repr__(self):
         return f'<User> {self.id} {self.username}'
 
@@ -38,6 +37,6 @@ class User(SqlAlchemyBase, UserMixin):
         user_dict = {attr: getattr(self, attr) for attr in self.__serialize_only__}
         user_dict['creation_time'] = f"{user_dict['creation_time']}"
         return user_dict
-    
+
     def date_to_millis(self):
         return int(time.mktime(self._creation_time.timetuple())) * 1000
